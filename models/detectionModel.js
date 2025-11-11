@@ -17,6 +17,17 @@ const detectionSchema = new Schema({
     ref: 'Worker',
     required: true
   },
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  }
 });
 
 const Detection = model('Detection', detectionSchema);

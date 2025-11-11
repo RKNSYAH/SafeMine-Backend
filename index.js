@@ -23,6 +23,7 @@ const createDummyData = async () => {
   try {
     await Worker.deleteMany({});
     await Supervisor.deleteMany({});
+    await Detection.deleteMany({});
     console.log("Old data cleared.");
 
     const salt = await bcrypt.genSalt(10);
@@ -57,18 +58,21 @@ const createDummyData = async () => {
       warnLabel: "Crack",
       worker: worker1._id,
       timeStamp: new Date("2025-11-10T14:48:00Z"),
+      location: { type: "Point", coordinates: [37.7749, -122.4194] }
     });
 
     const detection2 = new Detection({
       warnLabel: "Fall",
       worker: worker2._id,
       timeStamp: new Date("2025-11-12T01:15:00Z"),
+      location: { type: "Point", coordinates: [40.7128, -74.0060] }
     });
 
     const detection3 = new Detection({
       warnLabel: "Corrosion",
       worker: worker1._id,
       timeStamp: new Date("2025-11-13T09:30:00Z"),
+      location: { type: "Point", coordinates: [34.0522, -118.2437] }
     });
 
     await detection1.save();
