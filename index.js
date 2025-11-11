@@ -13,7 +13,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(router);
 
 const uri = process.env.MONGODB_URI;
 const clientOptions = {
