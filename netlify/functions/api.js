@@ -33,7 +33,7 @@ const connectToDatabase = async () => {
 };
 
 
-app.use('/api', async (req, res, next) => {
+api.use('/api', async (req, res, next) => {
   try {
     await connectToDatabase();
     next(); 
