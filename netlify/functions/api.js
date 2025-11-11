@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import serverless from "serverless-http";
 import router from "../../router/router";
+import cors from "cors";
 import mongoose from "mongoose";
 
 const api = express();
