@@ -13,10 +13,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(router)
 
 const uri = process.env.MONGODB_URI;
 const clientOptions = {
-  serverApi: { version: "1", strict: true, deprecationErrors: true },
+  serverSelectionTimeoutMS: 5000 
 };
 
 const createDummyData = async () => {
@@ -61,12 +62,6 @@ const createDummyData = async () => {
       location: { type: "Point", coordinates: [37.7749, -122.4194] }
     });
 
-    const detection2 = new Detection({
-      warnLabel: "Fall",
-      worker: worker2._id,
-      timeStamp: new Date("2025-11-12T01:15:00Z"),
-      location: { type: "Point", coordinates: [40.7128, -74.0060] }
-    });
 
     const detection3 = new Detection({
       warnLabel: "Corrosion",
@@ -76,7 +71,6 @@ const createDummyData = async () => {
     });
 
     await detection1.save();
-    await detection2.save();
     await detection3.save();
 
     console.log("--- DUMMY DATA CREATED SUCCESSFULLY ---");
@@ -94,7 +88,7 @@ async function run() {
     );
     app.listen(process.env.PORT, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
-    });
+    })
   } catch (error) {
     console.error(error);
   }
