@@ -12,7 +12,11 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(router)
 
 const uri = process.env.MONGODB_URI;
@@ -49,29 +53,12 @@ const createDummyData = async () => {
       fullName: "Bob Johnson",
       workerID: 12,
       supervisor: supervisor1._id,
-      isLoggedIn: true,
+      isLoggedIn: false,
     });
 
     await worker1.save();
     await worker2.save();
 
-    const detection1 = new Detection({
-      warnLabel: "Crack",
-      worker: worker1._id,
-      timeStamp: new Date("2025-11-10T14:48:00Z"),
-      location: { type: "Point", coordinates: [37.7749, -122.4194] }
-    });
-
-
-    const detection3 = new Detection({
-      warnLabel: "Corrosion",
-      worker: worker1._id,
-      timeStamp: new Date("2025-11-13T09:30:00Z"),
-      location: { type: "Point", coordinates: [34.0522, -118.2437] }
-    });
-
-    await detection1.save();
-    await detection3.save();
 
     console.log("--- DUMMY DATA CREATED SUCCESSFULLY ---");
   } catch (error) {
@@ -89,6 +76,7 @@ async function run() {
     app.listen(process.env.PORT, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
     })
+    await createDummyData()
   } catch (error) {
     console.error(error);
   }
