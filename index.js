@@ -10,14 +10,20 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-  origin: "*",
+const corsOptions = {
+  origin: "https://safemine-production-4a64.up.railway.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-}));
-app.use(router)
+  credentials: true,
+};
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+app.use(router);
 
 const uri = process.env.MONGODB_URI;
 const clientOptions = {
